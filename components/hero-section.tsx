@@ -161,7 +161,7 @@ export function HeroSection() {
                   transition={{ duration: 1.5, ease: "easeOut" }}
                 >
                   <Image
-                    src="/placeholder.svg?height=320&width=320"
+                    src="/dimaas,JPG"
                     alt="Profile Photo"
                     width={320}
                     height={320}

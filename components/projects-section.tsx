@@ -7,6 +7,8 @@ import { Badge } from "@/components/ui/badge"
 import { ExternalLink, Github, Star, Eye, GitFork } from "lucide-react"
 import { useRef, useState } from "react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
+
 
 export function ProjectsSection() {
   const ref = useRef(null)
@@ -14,6 +16,8 @@ export function ProjectsSection() {
     target: ref,
     offset: ["start end", "end start"],
   })
+  
+  const Router = useRouter();
 
   const [hoveredProject, setHoveredProject] = useState<string | null>(null)
 
@@ -53,7 +57,7 @@ export function ProjectsSection() {
         "A beautiful weather application with location-based forecasts, interactive maps, and detailed analytics.",
       image: "/AgriNext.png",
       technologies: ["NextJS", "Typescript", "OpenWeather API", "TailwindCSS", "OpenAIAPI"],
-      liveUrl: "#",
+      liveUrl: "https://agrinext.vercel.app/",
       githubUrl: "#",
       featured: true,
       stats: { stars: 2, forks: 2, views: "500" },
@@ -267,7 +271,7 @@ export function ProjectsSection() {
 
                   <div className="flex gap-4">
                     <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}>
-                      <Button
+                      <Button  onClick={() => Router.push(project.liveUrl)} 
                         size="sm"
                         className={`bg-gradient-to-r ${project.color} hover:shadow-lg transition-all duration-300 relative overflow-hidden group/btn`}
                       >

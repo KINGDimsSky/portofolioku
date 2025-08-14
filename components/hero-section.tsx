@@ -165,6 +165,7 @@ export function HeroSection() {
                     alt="Profile Photo"
                     fill
                     className="w-full h-full object-cover"
+                    priority
                   />
                 </motion.div>
 

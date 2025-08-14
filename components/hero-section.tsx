@@ -161,11 +161,13 @@ export function HeroSection() {
                   transition={{ duration: 1.5, ease: "easeOut" }}
                 >
                   <Image
-                    src="/DimsSky.JPG"
+                    src="/DimsSky.jpg"
                     alt="Profile Photo"
                     fill
+                    sizes="100vw"
                     className="w-full h-full object-cover"
                     priority
+                    unoptimized
                   />
                 </motion.div>
 

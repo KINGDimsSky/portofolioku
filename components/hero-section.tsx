@@ -1,475 +1,134 @@
 "use client"
 
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Github, Linkedin, Mail, MapPin, GraduationCap, Sparkles } from "lucide-react"
+import { motion } from "framer-motion"
+import { Github, Linkedin, Mail } from "lucide-react"
 import Image from "next/image"
-import { useEffect, useState } from "react"
 
 export function HeroSection() {
-  const { scrollY } = useScroll()
-  const y1 = useTransform(scrollY, [0, 300], [0, -50])
-  const y2 = useTransform(scrollY, [0, 300], [0, -100])
-  const opacity = useTransform(scrollY, [0, 300], [1, 0])
-
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [isHovered, setIsHovered] = useState(false)
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
-    }
-    window.addEventListener("mousemove", handleMouseMove)
-    return () => window.removeEventListener("mousemove", handleMouseMove)
-  }, [])
-
-  const fixedParticlePositions = [
-    { left: 10, top: 20 },
-    { left: 85, top: 15 },
-    { left: 25, top: 80 },
-    { left: 70, top: 60 },
-    { left: 5, top: 45 },
-    { left: 90, top: 35 },
-    { left: 40, top: 10 },
-    { left: 60, top: 90 },
-    { left: 15, top: 65 },
-    { left: 80, top: 25 },
-    { left: 35, top: 50 },
-    { left: 95, top: 70 },
-    { left: 20, top: 30 },
-    { left: 75, top: 85 },
-    { left: 45, top: 5 },
-    { left: 65, top: 40 },
-    { left: 30, top: 75 },
-    { left: 85, top: 55 },
-    { left: 50, top: 95 },
-    { left: 12, top: 38 },
+  const socialLinks = [
+    { icon: Github, href: "https://github.com/KINGDimsSky", label: "GitHub" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/dimas-zulkarnain-69b855301/", label: "LinkedIn" },
+    { icon: Mail, href: "mailto:dimaszps2004@gmail.com", label: "Email" },
   ]
 
-  const particleVariants = {
-    animate: {
-      y: [0, -100, 0],
-      opacity: [0, 1, 0],
-      scale: [0, 1, 0],
-      transition: {
-        duration: 3,
-        repeat: Number.POSITIVE_INFINITY,
-        repeatDelay: 1,
-      },
-    },
-  }
-
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-sky-50 dark:from-gray-900 dark:via-blue-950 dark:to-gray-900" />
-
-      {mounted && (
+    <section
+      id="home"
+      className="min-h-screen pt-28 pb-16 flex items-center justify-center bg-canvas relative overflow-hidden"
+    >
+      <div className="max-w-[1640px] w-full mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
         <motion.div
-          className="absolute inset-0 opacity-30"
-          style={{
-            background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(59, 130, 246, 0.15) 0%, transparent 50%)`,
-          }}
-        />
-      )}
-
-      {mounted &&
-        fixedParticlePositions.map((position, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 bg-blue-400/30 rounded-full"
-            style={{
-              left: `${position.left}%`,
-              top: `${position.top}%`,
-            }}
-            variants={particleVariants}
-            animate="animate"
-            transition={{ delay: i * 0.2 }}
-          />
-        ))}
-
-      <motion.div
-        className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-blue-500/20 to-sky-400/20 rounded-full blur-3xl"
-        style={{ y: y1 }}
-        animate={{
-          scale: [1, 1.2, 1],
-          rotate: [0, 180, 360],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-        }}
-      />
-      <motion.div
-        className="absolute bottom-32 right-16 w-40 h-40 bg-gradient-to-r from-purple-500/20 to-pink-400/20 rounded-full blur-3xl"
-        style={{ y: y2 }}
-        animate={{
-          scale: [1.2, 1, 1.2],
-          rotate: [360, 180, 0],
-        }}
-        transition={{
-          duration: 12,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-        }}
-      />
-
-      <motion.div style={{ opacity }} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -100, rotateY: -30 }}
-            animate={{ opacity: 1, x: 0, rotateY: 0 }}
-            transition={{ duration: 1.2, ease: "easeOut", type: "spring" }}
-            className="flex justify-center lg:justify-start order-2 lg:order-1"
-          >
-            <div className="relative perspective-1000">
-              {[...Array(4)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  className={`absolute inset-0 rounded-full border border-blue-500/${20 + i * 10}`}
-                  animate={{ rotate: 360 * (i % 2 === 0 ? 1 : -1) }}
-                  transition={{
-                    duration: 20 + i * 5,
-                    repeat: Number.POSITIVE_INFINITY,
-                    ease: "linear",
-                  }}
-                  style={{
-                    width: `${120 + i * 20}%`,
-                    height: `${120 + i * 20}%`,
-                    left: `${-10 - i * 10}%`,
-                    top: `${-10 - i * 10}%`,
-                  }}
-                />
-              ))}
-
-              <motion.div
-                className="relative w-80 h-80 rounded-full overflow-hidden border-4 border-white/20 shadow-2xl backdrop-blur-sm"
-                whileHover={{
-                  scale: 1.1,
-                  rotateY: 10,
-                  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
-                }}
-                onHoverStart={() => setIsHovered(true)}
-                onHoverEnd={() => setIsHovered(false)}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              >
-                <motion.div
-                  initial={{ scale: 1.3, rotate: -10 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  transition={{ duration: 1.5, ease: "easeOut" }}
-                >
-                  <Image
-                    src="/DimsSky.jpg"
-                    alt="Profile Photo"
-                    fill
-                    sizes="100vw"
-                    className="w-full h-full object-cover"
-                    priority
-                    unoptimized
-                  />
-                </motion.div>
-
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-t from-blue-900/30 via-transparent to-sky-400/10"
-                  animate={{
-                    background: isHovered
-                      ? "linear-gradient(to top, rgba(30, 58, 138, 0.4), transparent, rgba(56, 189, 248, 0.2))"
-                      : "linear-gradient(to top, rgba(30, 58, 138, 0.3), transparent, rgba(56, 189, 248, 0.1))",
-                  }}
-                />
-
-                <AnimatePresence>
-                  {isHovered && mounted && (
-                    <>
-                      {[
-                        { left: 20, top: 15 },
-                        { left: 80, top: 25 },
-                        { left: 15, top: 70 },
-                        { left: 85, top: 60 },
-                        { left: 50, top: 10 },
-                        { left: 30, top: 80 },
-                        { left: 70, top: 40 },
-                        { left: 40, top: 90 },
-                      ].map((pos, i) => (
-                        <motion.div
-                          key={i}
-                          className="absolute"
-                          style={{
-                            left: `${pos.left}%`,
-                            top: `${pos.top}%`,
-                          }}
-                          initial={{ scale: 0, rotate: 0 }}
-                          animate={{
-                            scale: [0, 1, 0],
-                            rotate: 360,
-                            y: [-20, -40, -60],
-                          }}
-                          exit={{ scale: 0 }}
-                          transition={{ duration: 1.5, delay: i * 0.1 }}
-                        >
-                          <Sparkles className="w-4 h-4 text-yellow-400" />
-                        </motion.div>
-                      ))}
-                    </>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-
-              <motion.div
-                className="absolute bottom-8 right-8 bg-green-500 w-8 h-8 rounded-full border-4 border-white shadow-xl flex items-center justify-center"
-                animate={{
-                  scale: [1, 1.3, 1],
-                  boxShadow: [
-                    "0 0 0 0 rgba(34, 197, 94, 0.7)",
-                    "0 0 0 10px rgba(34, 197, 94, 0)",
-                    "0 0 0 0 rgba(34, 197, 94, 0)",
-                  ],
-                }}
-                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-              >
-                <motion.div
-                  className="w-3 h-3 bg-white rounded-full"
-                  animate={{ scale: [1, 0.8, 1] }}
-                  transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-                />
-              </motion.div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 100 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
-            className="space-y-8 text-center lg:text-left order-1 lg:order-2"
-          >
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="space-y-4"
-            >
-              <motion.p
-                className="text-blue-600 font-medium text-lg flex items-center justify-center lg:justify-start gap-2"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.7 }}
-              >
-                <motion.span
-                  animate={{ rotate: [0, 14, -8, 14, -4, 10, 0] }}
-                  transition={{ duration: 2.5, repeat: Number.POSITIVE_INFINITY, repeatDelay: 3 }}
-                >
-                  👋
-                </motion.span>
-                Hello, I'm
-              </motion.p>
-
-              <motion.h1
-                className="text-4xl sm:text-5xl lg:text-7xl font-heading font-bold"
-                initial={{ opacity: 0, y: 50, scale: 0.8 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 1, delay: 0.9, type: "spring", stiffness: 100 }}
-              >
-                <motion.span
-                  className="bg-gradient-to-r from-blue-600 via-purple-600 to-sky-500 bg-clip-text text-transparent bg-300% animate-gradient"
-                  animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
-                  transition={{ duration: 5, repeat: Number.POSITIVE_INFINITY }}
-                >
-                  Dimas Zulkarnain Putra Sukamto
-                </motion.span>
-              </motion.h1>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.1 }}
-              className="relative"
-            >
-              <motion.h2
-                className="text-2xl sm:text-3xl lg:text-4xl font-heading font-semibold text-foreground"
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                Full Stack Web Developer
-              </motion.h2>
-              <motion.div
-                className="h-2 bg-gradient-to-r from-blue-600 via-purple-500 to-sky-500 rounded-full mt-3"
-                initial={{ width: 0, opacity: 0 }}
-                animate={{ width: "100%", opacity: 1 }}
-                transition={{ duration: 1.5, delay: 1.3 }}
-              />
-
-              <motion.div
-                className="absolute -top-4 -right-8 text-blue-500/30 text-2xl"
-                animate={{
-                  y: [0, -10, 0],
-                  rotate: [0, 5, -5, 0],
-                }}
-                transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY }}
-              >
-                {"</>"}
-              </motion.div>
-            </motion.div>
-
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.5 }}
-              className="text-lg text-muted-foreground leading-relaxed max-w-2xl"
-            >
-              <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 1.7 }}>
-                Passionate about creating innovative digital solutions and seamless user experiences.
-              </motion.span>
-              <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 1.9 }}>
-                I specialize in modern web technologies and love turning complex problems into elegant, simple designs.
-              </motion.span>
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 2.1 }}
-              className="space-y-4"
-            >
-              {[
-                { icon: GraduationCap, text: "Currently studying at", highlight: "Universitas Wijaya Kusuma Surabaya" },
-                { icon: MapPin, text: "Graduated from", highlight: "SMA Muhammadiyah 4 Surabaya" },
-              ].map((item, index) => (
-                <motion.div
-                  key={index}
-                  className="flex items-center justify-center lg:justify-start gap-3 text-muted-foreground group cursor-pointer"
-                  whileHover={{ x: 10, scale: 1.02 }}
-                  transition={{ type: "spring", stiffness: 400 }}
-                >
-                  <motion.div
-                    className="p-2 rounded-full bg-blue-100 dark:bg-blue-900/30 group-hover:bg-blue-200 dark:group-hover:bg-blue-800/50 transition-colors"
-                    whileHover={{ rotate: 360, scale: 1.1 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <item.icon className="h-5 w-5 text-blue-600" />
-                  </motion.div>
-                  <span>
-                    {item.text} <strong className="text-foreground">{item.highlight}</strong>
-                  </span>
-                </motion.div>
-              ))}
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 2.3 }}
-              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
-            >
-              <motion.div
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 400 }}
-              >
-                <Button
-                  size="lg"
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 shadow-xl hover:shadow-2xl transition-all duration-300 relative overflow-hidden group"
-                >
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent"
-                    initial={{ x: "-100%" }}
-                    whileHover={{ x: "100%" }}
-                    transition={{ duration: 0.5 }}
-                  />
-                  <span className="relative z-10">View My Work</span>
-                </Button>
-              </motion.div>
-
-              <motion.div
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 400 }}
-              >
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="px-8 py-4 bg-transparent border-2 border-blue-200 hover:bg-blue-50 dark:hover:bg-blue-950 hover:border-blue-300 transition-all duration-300 group"
-                >
-                  <motion.span className="group-hover:text-blue-600 transition-colors" whileHover={{ scale: 1.1 }}>
-                    Download CV
-                  </motion.span>
-                </Button>
-              </motion.div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 2.5 }}
-              className="flex items-center justify-center lg:justify-start space-x-6 pt-4"
-            >
-              {[
-                {
-                  icon: Github,
-                  href: "#",
-                  color: "hover:text-gray-900 dark:hover:text-white",
-                  bg: "hover:bg-gray-100 dark:hover:bg-gray-800",
-                },
-                {
-                  icon: Linkedin,
-                  href: "#",
-                  color: "hover:text-blue-600",
-                  bg: "hover:bg-blue-50 dark:hover:bg-blue-950",
-                },
-                { icon: Mail, href: "#", color: "hover:text-red-500", bg: "hover:bg-red-50 dark:hover:bg-red-950" },
-              ].map((social, index) => (
-                <motion.div
-                  key={index}
-                  whileHover={{
-                    scale: 1.3,
-                    y: -5,
-                    rotate: [0, -10, 10, 0],
-                  }}
-                  whileTap={{ scale: 0.9 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                >
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className={`w-12 h-12 rounded-full ${social.bg} ${social.color} transition-all duration-300 shadow-lg hover:shadow-xl`}
-                  >
-                    <social.icon className="h-6 w-6" />
-                  </Button>
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.div>
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 3 }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+          transition={{ duration: 0.8, delay: 0.1 }}
+          className="lg:col-span-7 flex flex-col items-start gap-6 text-left"
         >
-          <motion.div
-            animate={{ y: [0, 15, 0] }}
-            transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-            className="flex flex-col items-center gap-3 cursor-pointer group"
-          >
-            <span className="text-sm text-muted-foreground group-hover:text-blue-600 transition-colors">
-              Scroll to explore
-            </span>
-            <motion.div
-              className="w-6 h-10 border-2 border-muted-foreground/30 rounded-full flex justify-center group-hover:border-blue-600 transition-colors"
-              whileHover={{ scale: 1.1 }}
+          <span className="font-mono text-xs tracking-widest text-brand font-medium uppercase">
+            [FULL STACK DEVELOPER // LONGLIFE LEARNER // AI - PRODUCTIVITY TOOLS SUPPORT]
+          </span>
+
+          {/* Huge Editorial Headline */}
+          <h1 className="font-sans text-5xl sm:text-6xl md:text-7xl lg:text-[80px] xl:text-[88px] font-semibold leading-[1.0] text-white tracking-[-0.04em]">
+            Dimas Zulkarnain Putra Sukamto
+          </h1>
+
+          {/* Subtitle & Professional Bio */}
+          <div className="space-y-4 max-w-[620px]">
+            <p className="font-sans text-base text-ash leading-relaxed">
+              I am an Informatics Engineering student with hands-on experience building production web applications for real clients. 
+              Specializing in full-stack JavaScript/TypeScript engineering (Next.js, NestJS) and relational/NoSQL database architectures. 
+              I focus on designing clean REST APIs, optimizing data fetching, and leveraging modern development workflows to deliver high-legibility, decoupled systems.
+            </p>
+          </div>
+
+          {/* Action CTAs */}
+          <div className="flex flex-wrap items-center gap-4 mt-2">
+            {/* Primary Coral-Red CTA */}
+            <a
+              href="#contact"
+              className="h-11 px-8 rounded-full bg-brand text-ink font-sans text-sm font-semibold hover:bg-white hover:text-ink transition-all duration-300 flex items-center justify-center"
             >
-              <motion.div
-                className="w-1 h-3 bg-muted-foreground/50 rounded-full mt-2 group-hover:bg-blue-600"
-                animate={{ y: [0, 12, 0] }}
-                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-              />
-            </motion.div>
-          </motion.div>
+              Get in Touch
+            </a>
+            {/* Secondary CTA */}
+            <a
+              href="https://wa.me/6282233681022"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="h-11 px-6 rounded-[5px] bg-canvas-soft text-ash font-sans text-sm font-medium border border-hairline-soft hover:text-white hover:border-ash transition-all duration-300 flex items-center justify-center gap-2"
+            >
+              <svg
+                className="w-4 h-4 fill-current text-[#25d366]"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.864-9.858.002-2.634-1.02-5.11-2.881-6.974-1.86-1.864-4.332-2.887-6.969-2.889-5.44 0-9.865 4.42-9.869 9.86-.001 1.636.427 3.232 1.239 4.64l-.992 3.613 3.788-.983zm10.536-5.834c-.266-.134-1.579-.779-1.822-.867-.243-.088-.419-.133-.596.134-.176.265-.681.862-.835 1.039-.154.177-.308.199-.575.066-.267-.134-1.127-.415-2.148-1.327-.794-.709-1.33-1.585-1.487-1.85-.157-.266-.017-.41.117-.543.12-.12.267-.31.4-.464.133-.155.177-.265.266-.443.089-.177.044-.332-.022-.464-.067-.134-.596-1.439-.817-1.97-.215-.518-.452-.447-.622-.456-.16-.008-.344-.01-.528-.01-.184 0-.485.07-.74.354-.254.283-.972.951-.972 2.32 0 1.368.994 2.69 1.135 2.87.14.18 1.956 2.987 4.737 4.194.662.287 1.178.459 1.58.587.665.211 1.27.181 1.748.11.533-.08 1.579-.646 1.802-1.272.223-.627.223-1.164.156-1.272-.067-.109-.244-.177-.51-.311z" />
+              </svg>
+              <span>WhatsApp Chat</span>
+            </a>
+          </div>
+
+          {/* Social Links */}
+          <div className="flex items-center gap-6 mt-6">
+            {socialLinks.map((social) => (
+              <a
+                key={social.label}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-mute hover:text-white transition-colors duration-200"
+                aria-label={social.label}
+              >
+                <social.icon className="w-5 h-5" />
+              </a>
+            ))}
+          </div>
         </motion.div>
-      </motion.div>
+
+        {/* Right Side: macOS-style Profile Studio Window */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="lg:col-span-5 flex justify-center lg:justify-end"
+        >
+          <div className="w-full max-w-[420px] bg-canvas-soft border border-hairline-soft rounded-[6px] overflow-hidden shadow-2xl">
+            {/* Studio Chrome Header */}
+            <div className="h-9 px-4 border-b border-hairline-soft bg-canvas flex items-center justify-between">
+              {/* macOS Window Buttons */}
+              <div className="flex items-center gap-1.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]" />
+                <div className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
+                <div className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
+              </div>
+              {/* Tab/Path Title */}
+              <span className="font-mono text-xs text-mute select-none">
+                ~/dimassky/dimas.jpg
+              </span>
+              {/* Empty placeholder to keep title centered */}
+              <div className="w-12" />
+            </div>
+
+            {/* Profile Image Viewport */}
+            <div className="relative aspect-[4/5] bg-canvas overflow-hidden">
+              <Image
+                src="/dimas.jpg"
+                alt="Dimas Zulkarnain"
+                fill
+                sizes="(max-w-768px) 100vw, 420px"
+                className="object-cover object-center grayscale hover:grayscale-0 transition-all duration-700"
+                priority
+              />
+            </div>
+
+            {/* Technical Detail Footer */}
+            <div className="p-4 bg-canvas border-t border-hairline-soft flex items-center justify-between font-mono text-[10px] text-mute">
+              <span>IMG_SIZE: 57.0 KB</span>
+              <span>RESOLVED: 200 OK</span>
+            </div>
+          </div>
+        </motion.div>
+      </div>
     </section>
   )
 }

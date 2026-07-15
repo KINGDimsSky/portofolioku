@@ -11,12 +11,38 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-dm-sans)", "system-ui", "sans-serif"],
-        heading: ["var(--font-space-grotesk)", "system-ui", "sans-serif"],
+        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "monospace"],
       },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        canvas: {
+          DEFAULT: "#0b0b0b",
+          soft: "#212121",
+          light: "#ffffff",
+          paper: "#ededed",
+        },
+        brand: {
+          DEFAULT: "#f36458",
+          deep: "#dd0000",
+        },
+        ink: {
+          DEFAULT: "#0b0b0b",
+          soft: "#212121",
+        },
+        graphite: "#353535",
+        ash: "#b9b9b9",
+        mute: "#797979",
+        hairline: {
+          DEFAULT: "#ededed",
+          soft: "#353535",
+        },
+        "link-blue": {
+          DEFAULT: "#0052ef",
+          soft: "#55beff",
+        },
+        success: "#37cd84",
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",

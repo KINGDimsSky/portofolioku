@@ -1,19 +1,16 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Moon, Sun, Menu, X } from "lucide-react"
-import { useTheme } from "next-themes"
+import { motion, AnimatePresence } from "framer-motion"
+import { Menu, X } from "lucide-react"
 
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const { theme, setTheme } = useTheme()
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
+      setIsScrolled(window.scrollY > 20)
     }
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
@@ -31,76 +28,89 @@ export function Navigation() {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-background/80 backdrop-blur-md border-b border-border" : "bg-transparent"
+      transition={{ duration: 0.5 }}
+      className={`fixed top-0 left-0 right-0 z-50 h-16 transition-all duration-300 ${
+        isScrolled
+          ? "bg-canvas/90 backdrop-blur-md border-b border-canvas-soft"
+          : "bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="font-heading text-xl font-bold"
-          >
-            DimsSkyPortofolio
-          </motion.div>
+      <div className="max-w-[1640px] mx-auto h-full px-6 flex items-center justify-between">
+        {/* Left: Brand Lockup */}
+        <a href="#home" className="flex items-center gap-2 group">
+          <div className="w-3 h-3 rounded-full bg-brand" />
+          <span className="font-sans font-semibold text-lg text-white tracking-tight">
+            DimsSky
+          </span>
+        </a>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item, index) => (
-              <motion.a
-                key={item.href}
-                href={item.href}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 * index }}
-                className="text-muted-foreground hover:text-foreground transition-colors duration-200"
-              >
-                {item.label}
-              </motion.a>
-            ))}
-            <Button variant="ghost" size="icon" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-              <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-            </Button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center space-x-2">
-            <Button variant="ghost" size="icon" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-              <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-            </Button>
-            <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-              {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </Button>
-          </div>
+        {/* Center: Desktop Navigation Links */}
+        <div className="hidden md:flex items-center gap-8">
+          {navItems.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className="font-sans text-[15px] font-medium text-ash hover:text-white transition-colors duration-200"
+            >
+              {item.label}
+            </a>
+          ))}
         </div>
 
-        {/* Mobile Menu */}
+        {/* Right: Actions */}
+        <div className="hidden md:flex items-center gap-4">
+          <a
+            href="#contact"
+            className="h-10 px-5 rounded-full bg-white text-ink font-sans text-sm font-semibold hover:bg-ash transition-colors flex items-center justify-center"
+          >
+            Get in Touch
+          </a>
+        </div>
+
+        {/* Mobile Hamburger Toggle */}
+        <div className="md:hidden flex items-center">
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="text-ash hover:text-white p-2"
+            aria-label="Toggle Menu"
+          >
+            {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu Panel */}
+      <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-background border-t border-border"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+            className="absolute top-16 left-0 right-0 bg-canvas border-b border-canvas-soft py-6 px-6 md:hidden flex flex-col gap-6"
           >
-            <div className="px-2 pt-2 pb-3 space-y-1">
+            <div className="flex flex-col gap-4">
               {navItems.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
-                  className="block px-3 py-2 text-muted-foreground hover:text-foreground transition-colors duration-200"
                   onClick={() => setIsMobileMenuOpen(false)}
+                  className="font-sans text-lg font-medium text-ash hover:text-white py-2 border-b border-canvas-soft/50 transition-colors"
                 >
                   {item.label}
                 </a>
               ))}
             </div>
+            <a
+              href="#contact"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="h-12 w-full rounded-full bg-white text-ink font-sans text-base font-semibold hover:bg-ash transition-colors flex items-center justify-center mt-2"
+            >
+              Get in Touch
+            </a>
           </motion.div>
         )}
-      </div>
+      </AnimatePresence>
     </motion.nav>
   )
 }
